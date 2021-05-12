@@ -10,23 +10,43 @@ import java.util.Scanner;
 //Class
 public class ContactsManagerApplication {
 
+
+    //instances fields
+//    private static Path dataDirectory;
+//    private static Path dataFile;
+//    private static Path contactsTxtPath;
+    String directory = "./src/contactsIO/data";
+    String filename = "contacts.txt";
+
+    Path dataDirectory = Paths.get(directory);
+    Path dataFile = Paths.get(directory, filename);
+    Path  contactsTxtPath = Paths.get(directory,filename);
+
+
+
+    //constructors
+
+
+
+
     // class properties
     public static String contactList;
 
     //main method
     public static void main(String[] args) throws IOException {
         System.out.println("Welcome to the contacts manager!");
+        System.out.println(contactList());
 
 
     }
 
     // Contact list for application
-    public static void contactList() throws IOException {
-        String directory = "./src/contactsIO/data";
-        String filename = "contacts.txt";
-
-        Path dataDirectory = Paths.get(directory);
-        Path dataFile = Paths.get(directory, filename);
+    public void contactList() throws IOException {
+//        String directory = "./src/contactsIO/data";
+//        String filename = "contacts.txt";
+//
+//        Path dataDirectory = Paths.get(directory);
+//        Path dataFile = Paths.get(directory, filename);
 
         //System.out.println("dataFile = " + dataFile);
 
@@ -40,11 +60,11 @@ public class ContactsManagerApplication {
 
             Files.createFile(dataFile);
         }
-        Path  contactsTxtPath = Paths.get(directory,filename);
+//        Path  contactsTxtPath = Paths.get(directory,filename);
 
         System.out.println("contactsTxtPath = " + contactsTxtPath);
 
-        List<String> contacts = Arrays.asList("Jonathan Sanchez | 2104445467", "Timothy Lefkowitz | 2106548756","Felecia Davis | 3362547998");
+        List<String> contacts = Arrays.asList("Jonathan Sanchez | 2104445467", "Timothy Lefkowitz | 2106548756","Mary Davis | 3362547998");
 
         System.out.println("Contacts txt file = " + contacts);
 
@@ -86,7 +106,7 @@ public class ContactsManagerApplication {
     }
     // Use this method to add a contact.
 
-    public static void addContact(){
+    public void addContact() throws IOException {
         Scanner sc = new Scanner(System.in);
 
         System.out.println(" Please Enter Firstname");
@@ -100,15 +120,15 @@ public class ContactsManagerApplication {
 
         System.out.printf("%s " + "%s " + "| " + "%d ", inputContactFirstname, inputContactLastname, inputContactPhoneNumber);
 
+        Path  contactsTxtPath = Paths.get(directory,filename);
         Files.write(contactsTxtPath, Arrays.asList(inputContactFirstname + " " + inputContactLastname + " | " + inputContactPhoneNumber), StandardOpenOption.APPEND);
-
 
     }
 
     // This method is to search for an existing contact by name.
 
-    public String searchContact(){
-    }
+//    public void searchContact(){
+//    }
 
     // This method is for deleting an existing contact.
 
