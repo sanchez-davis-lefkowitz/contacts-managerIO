@@ -7,9 +7,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+//Class
 public class ContactsManagerApplication {
 
+    // class properties
+    public static String contactList;
 
+    //main method
+    public static void main(String[] args) throws IOException {
+        System.out.println("Welcome to the contacts manager!");
+
+
+    }
+
+    // Contact list for application
     public static void contactList() throws IOException {
         String directory = "./src/contactsIO/data";
         String filename = "contacts.txt";
@@ -48,10 +59,7 @@ public class ContactsManagerApplication {
         }
 
     }
-
-
-
-
+    // This is our main menu for our application.
     public static void mainMenu(String input){
 
 
@@ -76,33 +84,7 @@ public class ContactsManagerApplication {
             }
         }
     }
-
-
-    public static String contactList;
-
-    public static void main(String[] args) throws IOException {
-
-
-
-    }
-
-        // This is our Contact List
-
-
-
-
-
-
-    // This is our Deleting Contact
-
-    public static void removeName(){
-        System.out.printf("Please enter name to remove");
-    }
-
-
-
-
-    // This is our adding contact
+    // Use this method to add a contact.
 
     public static void addContact(){
         Scanner sc = new Scanner(System.in);
@@ -123,10 +105,14 @@ public class ContactsManagerApplication {
 
     }
 
-    // This is our Searching method
+    // This method is to search for an existing contact by name.
 
-    public static void search(){
-
+    public String searchContact(){
     }
 
+    // This method is for deleting an existing contact.
+
+    public static void removeName(){
+        System.out.printf("Please enter name to remove");
+    }
 }
