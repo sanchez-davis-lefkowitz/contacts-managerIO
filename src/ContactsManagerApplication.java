@@ -3,10 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 //Class
 public class ContactsManagerApplication {
@@ -27,8 +24,9 @@ public class ContactsManagerApplication {
     public static void DisplayAllContacts() throws IOException {
 //        Path contactsTxtPath = Paths.get(directory,filename);
         List<String> contactsList = Files.readAllLines(contactsTxtPath);
+        System.out.println(" \n");
         for (int i = 0; i < contactsList.size(); i +=1){
-            System.out.println((i + 1) + ": " + contactsList.get(i) + "/n/n");
+            System.out.println((i + 1) + ": " + contactsList.get(i));
     }}
 
     //Remove name
@@ -41,7 +39,7 @@ public class ContactsManagerApplication {
 
         for (String contact : contactName) {
             if (contact.contains(name)) {
-
+                continue;
             } else
                 anotherCL.add(contact);
         }
@@ -50,39 +48,42 @@ public class ContactsManagerApplication {
 
     }
 
-    public static String[] searchName(String name) throws IOException {
-
-        List<String> contactList = Files.readAllLines(contactsTxtPath);
-        String[] contactFound = new String[0];
-        for (String contact : contactList) {
-            if (contact.contains(name)) {
-                contactFound = contact.split(":");
-            }
-        }
-        return contactFound;
-    }
+//    public static String[] searchName(String name) throws IOException {
+//
+//        List<String> contactList = Files.readAllLines(contactsTxtPath);
+//        String[] contactFound = new String[0];
+//        for (String contact : contactList) {
+//            if (contact.contains(name)) {
+//                contactFound = contact.split(":");
+//            }
+//        }
+//        return contactFound;
+//    }
 
 
     public static void searchName() throws IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Search contact information by EXACT name: ");
+        System.out.println("Search contact information by name: ");
         String name = scanner.nextLine();
 
         boolean nameFound = false;
 
+        //
+        //              ADD FEATURE TO SEARCH FOR LOWERCASE
+        //
+
         List<String> contactList = Files.readAllLines(contactsTxtPath);
         for (String contact : contactList) {
-            if (contact.contains(name.toLowerCase()) || contact.contains(name)) {
+            if (contact.contains(name.toLowerCase(Locale.ROOT)) || contact.contains(name) ) {
                 name = contact;
                 nameFound = true;
                 break;
             }
         }
+
         if (nameFound) {
             System.out.println(name);
-
         } else {
-
             System.out.println("Sorry Contact not found");
         }
     }
@@ -99,9 +100,9 @@ public class ContactsManagerApplication {
         String inputContactLastname = sc.nextLine();
 
         System.out.println(" Please Enter Phone Number without Dashes");
-        int inputContactPhoneNumber = sc.nextInt();
+        String inputContactPhoneNumber = sc.nextLine();
 
-        System.out.printf("%s " + "%s " + "| " + "%d ", inputContactFirstname, inputContactLastname, inputContactPhoneNumber);
+        System.out.printf("%s " + "%s " + "| " + "%s ", inputContactFirstname, inputContactLastname, inputContactPhoneNumber);
 
         Path  contactsTxtPath = Paths.get(directory,filename);
 //        Files.write(contactsTxtPath, Arrays.asList(inputContactFirstname + " " + inputContactLastname + " | " + inputContactPhoneNumber), StandardOpenOption.APPEND);
@@ -148,7 +149,6 @@ public class ContactsManagerApplication {
             } else if (userInput == 2){
                 addContact();
             } else if (userInput == 3){
-
                 searchName();
             } else if (userInput == 4){
                 removeName();
@@ -167,6 +167,7 @@ public class ContactsManagerApplication {
     public static void main(String[] args) throws IOException{
         System.out.println("\n\n\nWelcome to the contacts manager!\n");
         mainMenu();
+        sam.sayHello
 
 
 
