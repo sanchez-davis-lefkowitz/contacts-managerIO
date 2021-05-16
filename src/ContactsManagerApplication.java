@@ -10,12 +10,8 @@ import java.util.Scanner;
 
 //Class
 public class ContactsManagerApplication {
-//Refactored
-    public static void main(String[] args) throws IOException{
 
-      //a-little-refactoring
-      Scanner cl = new Scanner(System.in);
-       String name = cl.nextLine();
+
 
     public static String directory = "./src/contactsIO/data";
     public static String filename = "contacts.txt";
@@ -24,151 +20,18 @@ public class ContactsManagerApplication {
     public static Path dataFile = Paths.get(directory, filename);
 
 
-    //instances fields
-//    private static Path dataDirectory;
-//    private static Path dataFile;
-//    private static Path contactsTxtPath;
-
-//    Path  contactsTxtPath = Paths.get(directory,filename);
-
-    String directory = "./src/contactsIO/data";
-    String filename = "contacts.txt" main
-
-    Path dataDirectory = Paths.get(directory);
-    Path dataFile = Paths.get(directory, filename);
-    Path  contactsTxtPath = Paths.get(directory,filename);
 
 
+    //  CONTACTS
 
+    public static void DisplayAllContacts() throws IOException {
+//        Path contactsTxtPath = Paths.get(directory,filename);
+        List<String> contactsList = Files.readAllLines(contactsTxtPath);
+        for (int i = 0; i < contactsList.size(); i +=1){
+            System.out.println((i + 1) + ": " + contactsList.get(i) + "/n/n");
+    }}
 
-    //constructors
-
-
-
-    // class properties
-    public static String contactList;
-
-
-
-    //main method
-    public static void main(String[] args) throws IOException {
-        System.out.println("Welcome to the contacts manager!");
-//        contactList();
-        mainMenu();
-        removeName();
-
-
-    }
-
-    // Contact list for application
-    public static void contactList() throws IOException {
-
-
-        String directory = "./src/contactsIO/data";
-        String filename = "contacts.txt";
-
-        Path dataDirectory = Paths.get(directory);
-        Path dataFile = Paths.get(directory, filename);
-
-        System.out.println("dataFile = " + dataFile);
-
-        if(Files.notExists(dataDirectory)){//IF T: got down path and directory not there!
-
-            Files.createDirectories(dataDirectory); //go ahead and create a directory on this path :)
-
-        }
-
-        if(Files.notExists(dataFile)){//IF T: got down path and file not found in directory~
-
-            Files.createFile(dataFile);
-        }
-        Path  contactsTxtPath = Paths.get(directory,filename);
-//
-        System.out.println("contactsTxtPath = " + contactsTxtPath);
-
-
-        List<String> contacts = Arrays.asList("Jonathan Sanchez | 2104445467", "Timothy Lefkowitz | 2106548756","Mary Davis | 3362547998");
-
-        System.out.println("Contacts txt file = " + contacts);
-
-        Files.write(contactsTxtPath, contacts);
-
-        List<String> contactList = Files.readAllLines(contactsTxtPath);
-
-
-        System.out.println("Name            |        Phone Number\n" + "----------------------------");
-
-        for (int i = 0; i < contactList.size(); i +=1){
-            System.out.println((i + 1) + ": " + contactList.get(i));
-        }
-// a-little-refactoring
-
-
-    }
-    // This is our main menu for our application.
-    public static void mainMenu() throws IOException {
-
-
-        Scanner ui = new Scanner(System.in);
-        int userInput;
-
-        boolean looper = true;
-        while (looper) {
-            System.out.println("Contacts Manager");
-            System.out.println("Please input one of the following: ");
-            System.out.println("1. View Contacts.");
-            System.out.println("2. Add a new contact.");
-            System.out.println("3. Search a contact by name.");
-            System.out.println("4. Delete an existing contact.");
-            System.out.println("5. Exit.");
-            System.out.println("Enter an option (1, 2, 3, 4, 5)");
-            userInput = ui.nextInt();
-            if (userInput == 0) {
-                looper = false;
-            } else if (userInput == 1){
-                contactList();
-            } else if (userInput == 2){
-                addContact();
-            } else if (userInput == 3){
-
-            } else if (userInput == 4){
-                removeName();
-            } else if (userInput == 5){
-                looper = false;
-            }
-        }
-
-    }
-
-//    public static void removeName() throws IOException {
-//////        File inputFile = new File("myFile.txt");
-////        File tempFile = new File("myTempFile.txt");
-////
-////        BufferedReader reader = new BufferedReader(new FileReader(filename));
-////        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
-////
-////
-////        Scanner sc = new Scanner(System.in);
-////
-////        System.out.println(" Please Enter name to delete");
-////        String inputContactFirstname = sc.nextLine();
-////
-////        String lineToRemove = inputContactFirstname;
-////        String currentLine;
-////
-////        while((currentLine = reader.readLine()) != null) {
-////            // trim newline when comparing with lineToRemove
-////            String trimmedLine = currentLine.trim();
-////            if(trimmedLine.equals(lineToRemove)) continue;
-////            writer.write(currentLine + System.getProperty("line.separator"));
-////        }
-////        writer.close();
-////        reader.close();
-////        boolean successful = tempFile.renameTo(new File(filename));
-//
-//        //Method to remove  contact with string.
-//    }
-
+    //Remove name
     public static void removeName() throws IOException {
         Scanner cl = new Scanner(System.in);
         System.out.println("Please enter a name to delete \n");
@@ -178,157 +41,57 @@ public class ContactsManagerApplication {
 
         for (String contact : contactName) {
             if (contact.contains(name)) {
-                continue;
+
             } else
                 anotherCL.add(contact);
         }
-            Files.write(contactsTxtPath, anotherCL);
+        Files.write(contactsTxtPath, anotherCL);
 //        System.out.println(anotherCL);
 
     }
 
+    public static String[] searchName(String name) throws IOException {
 
-    // Use this method to add a contact.
+        List<String> contactList = Files.readAllLines(contactsTxtPath);
+        String[] contactFound = new String[0];
+        for (String contact : contactList) {
+            if (contact.contains(name)) {
+                contactFound = contact.split(":");
+            }
+        }
+        return contactFound;
+    }
 
+
+    public static void searchName() throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Search contact information by EXACT name: ");
+        String name = scanner.nextLine();
+
+        boolean nameFound = false;
+
+        List<String> contactList = Files.readAllLines(contactsTxtPath);
+        for (String contact : contactList) {
+            if (contact.contains(name.toLowerCase()) || contact.contains(name)) {
+                name = contact;
+                nameFound = true;
+                break;
+            }
+        }
+        if (nameFound) {
+            System.out.println(name);
+
+        } else {
+
+            System.out.println("Sorry Contact not found");
+        }
+    }
 
     public static void addContact() throws IOException {
-
- a-little-refactoring
-public static void mainMenu() {
-    Scanner sc = new Scanner(System.in);
-    System.out.println("Contacts Manager");
-    System.out.println("Please input one of the following: ");
-    System.out.println("1. View Contacts.");
-    System.out.println("2. Add a new contact.");
-    System.out.println("3. Search a contact by name.");
-    System.out.println("4. Delete an existing contact.");
-    System.out.println("5. Exit.");
-    System.out.println("Enter an option (1, 2, 3, 4, 5)");
-}
-
-//    public static void contactList() throws IOException {
-//        String directory = "./src/contactsIO/data";
-//        String filename = "contacts.txt";
-//
-//        Path dataDirectory = Paths.get(directory);
-//        Path dataFile = Paths.get(directory, filename);
-//
-//        //System.out.println("dataFile = " + dataFile);
-//
-//        if(Files.notExists(dataDirectory)){//IF T: got down path and directory not there!
-//
-//            Files.createDirectories(dataDirectory); //go ahead and create a directory on this path :)
-//
-//        }
-//
-//        if(Files.notExists(dataFile)){//IF T: got down path and file not found in directory~
-//
-//            Files.createFile(dataFile);
-//        }
-//        Path  contactsTxtPath = Paths.get(directory,filename);
-//
-//        System.out.println("contactsTxtPath = " + contactsTxtPath);
-//
-//        List<String> contacts = Arrays.asList("Jonathan Sanchez | 2104445467", "Timothy Lefkowitz | 2106548756","Felecia Davis | 3362547998");
-//
-//        System.out.println("Contacts txt file = " + contacts);
-//
-//        Files.write(contactsTxtPath, contacts);
-//
-//        List<String> contactList = Files.readAllLines(contactsTxtPath);
-//
-//        System.out.println("Name      |        Phone Number\n" + "----------------------------");
-//
-//        for (int i = 0; i < contactList.size(); i +=1){
-//            System.out.println((i + 1) + ": " + contactList.get(i));
-//        }
-
-    }
-//
-//
-//
-//
-//    public static void mainMenu(String input){
-//
-//
-//        Scanner ui = new Scanner(System.in);
-//        int userInput;
-//
-//        boolean looper = true;
-//        while (looper) {
-//            System.out.println("Contacts Manager");
-//            System.out.println("Please input one of the following: ");
-//            System.out.println("1. View Contacts.");
-//            System.out.println("2. Add a new contact.");
-//            System.out.println("3. Search a contact by name.");
-//            System.out.println("4. Delete an existing contact.");
-//            System.out.println("5. Exit.");
-//            System.out.println("Enter an option (1, 2, 3, 4, 5)");
-//            userInput = ui.nextInt();
-//            if (userInput == 0) {
-//                looper = false;
-//            } else if (userInput == 1){
-//                System.out.print(contactList);
-//            }
-//        }
-//    }
-//
-//
-//    public static String contactList;
-//
-//    public static void main(String[] args) throws IOException {
-//
-//
-//
-//    }
-//
-//        // This is our Contact List
-//
-//
-//
-//
-//
-//
-//    // This is our Deleting Contact
-//
-//    public static void removeName(){
-//        System.out.printf("Please enter name to remove");
-//    }
-//
-//
-//
-//
-//    // This is our adding contact
-//
-//    public static void addContact(){
-//        Scanner sc = new Scanner(System.in);
-//
-//        System.out.println(" Please Enter Firstname");
-//        String inputContactFirstname = sc.nextLine();
-//
-//        System.out.println(" Please Enter Lastname");
-//        String inputContactLastname = sc.nextLine();
-//
-//        System.out.println(" Please Enter Phone Number without Dashes");
-//        int inputContactPhoneNumber = sc.nextInt();
-//
-//        System.out.printf("%s " + "%s " + "| " + "%d ", inputContactFirstname, inputContactLastname, inputContactPhoneNumber);
-//
-//        Files.write(contactsTxtPath, Arrays.asList(inputContactFirstname + " " + inputContactLastname + " | " + inputContactPhoneNumber), StandardOpenOption.APPEND);
-//
-//
-//    }
-//
-//    // This is our Searching method
-//
-//    public static void search(){
-//
-//    }
-
-    public void addContact() throws IOException {
+        String directory = "./src/contactsIO/data";
+        String filename = "contacts.txt";
 
         Scanner sc = new Scanner(System.in);
-
         System.out.println(" Please Enter Firstname");
         String inputContactFirstname = sc.nextLine();
 
@@ -341,17 +104,74 @@ public static void mainMenu() {
         System.out.printf("%s " + "%s " + "| " + "%d ", inputContactFirstname, inputContactLastname, inputContactPhoneNumber);
 
         Path  contactsTxtPath = Paths.get(directory,filename);
-        Files.write(contactsTxtPath, Arrays.asList(inputContactFirstname + " " + inputContactLastname + " | " + inputContactPhoneNumber), StandardOpenOption.APPEND);
+//        Files.write(contactsTxtPath, Arrays.asList(inputContactFirstname + " " + inputContactLastname + " | " + inputContactPhoneNumber), StandardOpenOption.APPEND);
 
-    }}
+        Files.write(contactsTxtPath, Arrays.asList(inputContactFirstname + inputContactLastname + " | " + inputContactPhoneNumber), StandardOpenOption.APPEND);
 
-    // This method is to search for an existing contact by name.
+    }
 
-//    public void searchContact(){
-//    }
 
-    // This method is for deleting an existing contact.
+    // This is our main menu for our application.
+    public static void mainMenu() throws IOException {
 
-//    public static void removeName(){
-//        System.out.printf("Please enter name to remove");
-//    }
+
+        Scanner ui = new Scanner(System.in);
+        int userInput;
+        String yesOrNo;
+
+
+
+        boolean loop = true;
+        while (loop) {
+            System.out.println("       Contacts Manager    \n");
+            System.out.println("Please input one of the following: ");
+            System.out.println("1. View Contacts.");
+            System.out.println("2. Add a new contact.");
+            System.out.println("3. Search a contact by name.");
+            System.out.println("4. Delete an existing contact.");
+            System.out.println("5. Exit.");
+            System.out.println("Enter an option (1, 2, 3, 4, 5)");
+            userInput = ui.nextInt();
+            if (userInput == 0) {
+                loop = false;
+            } else if (userInput == 1){
+                DisplayAllContacts();
+//                System.out.println("Would you like to go back to the main menu?");
+//                yesOrNo = ui.nextLine();
+//
+//                    if(yesOrNo == "Yes"){
+//                        continue;
+//                    } else if (yesOrNo == "No"){
+//                        continue;
+//                    }
+//                    loop = false;
+            } else if (userInput == 2){
+                addContact();
+            } else if (userInput == 3){
+
+                searchName();
+            } else if (userInput == 4){
+                removeName();
+            } else if (userInput == 5){
+                loop = false;
+            }
+        }
+    }
+
+
+    // Contact list for application
+
+
+
+
+    public static void main(String[] args) throws IOException{
+        System.out.println("\n\n\nWelcome to the contacts manager!\n");
+        mainMenu();
+
+
+
+
+        }
+
+
+}
